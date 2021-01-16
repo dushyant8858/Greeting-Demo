@@ -15,9 +15,4 @@ public class GreetingController {
         return new Greeting(counter.incrementAndGet(), String.format(template, name));
     }
 
-//    These paths are case-sensitive it appears
-    @RequestMapping(value = "/currentdatetime", method = RequestMethod.GET)
-    public String currentDate() {
-        return java.time.LocalDateTime.now().toString();
-    }
 }
