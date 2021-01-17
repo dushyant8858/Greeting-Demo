@@ -8,6 +8,12 @@ RUN mvn -f /home/app/pom.xml clean package
 
 FROM openjdk:8-jdk-alpine as production
 #FROM openjdk:11-jre-slim
-COPY --from=builder /home/app/target/demo-0.0.1-SNAPSHOT.jar /usr/local/lib/demo.jar
+
+ARG server_port=8083
+
+ENV SERVER_PORT=${server_port}
+
+COPY --from=builder /home/app/target/demo-0.0.1-SNAPSHOT.jar /usr/local/lib/greeting-demo.jar
 EXPOSE 8082
-ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]
+#ENTRYPOINT ["java","-jar","/usr/local/lib/greeting-demo.jar"]
+ENTRYPOINT java -Dsome.prop=MyAppIsPassed -Dserver.port=${SERVER_PORT} -jar /usr/local/lib/greeting-demo.jar
