@@ -1,6 +1,8 @@
 # ---------- DD ---------- #
 
 docker build -t greeting:latest --build-arg server_port=8084 --no-cache .
+
+docker build -t greeting:latest --build-arg server_port=8084 .
 docker stop greeting && docker rm greeting 
 docker run -d -p 8084:8084 --name greeting greeting
 
@@ -14,10 +16,9 @@ apk add curl
 
 
 git add .
-git commit -m "Enabled accesslog and tomcat/catalina=DEBUG  "
+git commit -m "Enabled accesslog and tomcat/catalina=DEBUG"
 git push
 
 # ---------- DD ---------- #
 
-
-http://localhost:8084/greeting?name=%s
+# Access Logs https://github.com/jochenchrist/spring-boot-access-logs-demo/tree/master/src
