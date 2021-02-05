@@ -14,7 +14,10 @@ apk add curl
 
 
 git add .
-git commit -m "greeting run on Port 8084"
+git commit -m "Enabled accesslog and tomcat/catalina=DEBUG  "
 git push
 
 # ---------- DD ---------- #
+
+
+http://localhost:8084/greeting?name=%s
