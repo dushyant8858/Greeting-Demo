@@ -24,22 +24,3 @@ ENTRYPOINT java -Dsome.prop=MyAppIsPassed -Dserver.port=${SERVER_PORT} -jar /usr
 # docker push 275903738462.dkr.ecr.us-east-1.amazonaws.com/greeting:latest
 
 # aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 275903738462.dkr.ecr.us-east-1.amazonaws.com/pt-portal
-
-
-
-
-
-# # ---------- DD ---------- #
-
-# docker build -t greeting:latest --build-arg server_port=8084 --no-cache .
-# docker stop greeting && docker rm greeting 
-# docker run -d -p 8084:8084 --name greeting greeting
-# curl localhost:8084/greeting
-
-
-
-# git add .
-# git commit -m "Added test line in Dockerfile"
-# git push
-
-# # ---------- DD ---------- #
