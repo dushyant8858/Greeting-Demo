@@ -14,7 +14,7 @@ apk add curl
 
 
 git add .
-git commit -m "Greetings run on Port 8084"
+git commit -m "greeting run on Port 8084"
 git push
 
 # ---------- DD ---------- #
