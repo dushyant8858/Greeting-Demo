@@ -10,7 +10,7 @@ docker run -d -p 8084:8084 --name greeting greeting
 curl http://localhost:8084/greeting | jq .
 
 
-docker logs greeting
+docker logs -f greeting
 docker exec -it greeting sh 
 apk add curl 
 
