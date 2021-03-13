@@ -21,7 +21,7 @@ docker system prune --all
 
 
 git add .
-git commit -m "Added some notes"
+git commit -m "Added some notes."
 git push
 
 # ---------- DD Local ---------- #
