@@ -21,7 +21,7 @@ docker system prune --all
 
 
 git add .
-git commit -m "Added some notes."
+git commit -m "Removed heapSize logging"
 git push
 
 # ---------- DD Local ---------- #
