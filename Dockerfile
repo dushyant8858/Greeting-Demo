@@ -15,7 +15,7 @@ ENV SERVER_PORT=${server_port}
 
 COPY --from=BUILDER /home/app/target/demo-0.0.1-SNAPSHOT.jar /usr/local/lib/greeting-demo.jar
 EXPOSE ${server_port}
-#ENTRYPOINT ["java","-jar","/usr/local/lib/greeting-demo.jar"]
+# ENTRYPOINT ["java","-jar","/usr/local/lib/greeting-demo.jar"]
 # ENTRYPOINT java -Xmx1024m -Xms1024m -Dsome.prop=MyAppIsPassed -Dserver.port=${SERVER_PORT} -jar /usr/local/lib/greeting-demo.jar
 ENTRYPOINT java -Dsome.prop=MyAppIsPassed -Dserver.port=${SERVER_PORT} -jar /usr/local/lib/greeting-demo.jar
 
