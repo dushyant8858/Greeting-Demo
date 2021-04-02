@@ -21,7 +21,7 @@ docker system prune --all
 
 
 git add .
-git commit -m "Removed heapSize logging"
+git commit -m "Removed .DS_Store"
 git push
 
 # ---------- DD Local ---------- #
