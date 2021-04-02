@@ -31,7 +31,6 @@ git push
 
 
 
-
 docker stop greeting && docker rm greeting
 docker build -t greeting:local --build-arg server_port=8084 .
 docker stop greeting && docker rm greeting 
