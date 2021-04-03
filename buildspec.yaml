@@ -9,7 +9,7 @@ phases:
       - echo Pre-Build started for """""Greeting""""""" on `date`...
       # - REPOSITORY_URI=$AWS_ACCOUNT.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/set-ecs-greetingecrrepository-*
       # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       - IMAGE_URI=$REPOSITORY_URI:$IMAGE_TAG
       - echo Logging in to Amazon ECR...
