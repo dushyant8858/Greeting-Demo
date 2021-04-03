@@ -29,7 +29,7 @@ phases:
       - echo Post-Build completed on `date`...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - docker push $REPOSITORY_URI:withSDcfn
+      - docker push $REPOSITORY_URI:withcfn
       - printf '[{"name":"%s","imageUri":"%s"}]' "$GreetingServiceName" "$IMAGE_URI" > Greetingimagedefinitions.json
       - echo CodeBuild completed on `date`
 
