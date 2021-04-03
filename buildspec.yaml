@@ -31,6 +31,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:withcfn
       - printf '[{"name":"%s","imageUri":"%s"}]' "$GreetingServiceName" "$IMAGE_URI" > Greetingimagedefinitions.json
+      - cat Greetingimagedefinitions.json
       - echo CodeBuild completed on `date`
 
       # - echo Updating the CloudFormation template value "Image" with correct ECR image URL with tag...
