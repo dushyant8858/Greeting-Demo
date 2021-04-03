@@ -1,0 +1,86 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+
+  pre_build:
+    commands:
+      - echo Pre-Build started for """""Greeting""""""" on `date`...
+      # - REPOSITORY_URI=$AWS_ACCOUNT.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/set-ecs-greetingecrrepository-*
+      # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - IMAGE_URI=$REPOSITORY_URI:$IMAGE_TAG
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
+  build:
+    commands:
+      - echo Build started on `date`...
+      - echo Building the Docker image...          
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $IMAGE_URI
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:withSDcfn
+
+  post_build:
+    commands:
+      - echo Post-Build completed on `date`...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:withSDcfn
+      - printf '[{"name":"%s","imageUri":"%s"}]' "$GreetingServiceName" "$IMAGE_URI" > Greetingimagedefinitions.json
+      - echo CodeBuild completed on `date`
+
+      # - echo Updating the CloudFormation template value "Image" with correct ECR image URL with tag...
+      # - cat CodeDeployBlueGreen.yaml | sed "s|{{ECRREPOplusTAG}}|$ECRREPOplusTAG|" > CodeDeployBlueGreen-final.yaml
+      # - cat CodeDeployBlueGreen-final.yaml | grep -i Image -A 3
+      # - echo Updating CloudFormation template done on `date` !!!...
+
+      # - echo Updating the SSM "hello-from-aws-nginx-imageTag" parameter...
+      # # # - aws ssm put-parameter --name hello-from-aws-nginx-imageTag --value $IMAGE_TAG --type String --overwrite
+      # - aws ssm put-parameter --name hello-from-aws-nginx-imageTag --value $ECRREPOplusTAG --type String --overwrite
+      # - echo Updating SSM imageTag parameter done on `date` !!!...
+
+artifacts:
+    files:
+      - Greetingimagedefinitions.json
+
+
+
+
+        # BuildSpec: |
+        #   version: 0.2
+        #   phases:
+        #     pre_build:
+        #       commands:
+        #         - $(aws ecr get-login --no-include-email)
+        #         - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
+        #         - IMAGE_URI="${REPOSITORY_URI}:${TAG}"
+        #     build:
+        #       commands:
+        #         # - docker build --tag "$IMAGE_URI" --tag "$REPOSITORY_URI:latest" .
+        #         - docker build --tag "$IMAGE_URI" --tag "$REPOSITORY_URI:latest" --tag "$REPOSITORY_URI:withSDcfn" --build-arg server_port=8083 --build-arg rest_hostname=$GreetingServiceName.$GreetingServiceName --build-arg rest_port=8084
+        #     post_build:
+        #       commands:
+        #         - docker push "$IMAGE_URI"
+        #         - printf '[{"name":"${GreetingServiceName}","imageUri":"%s"}]' "$IMAGE_URI" > images.json
+        #   artifacts:
+        #     files: images.json
+
+
+        # https://stackoverflow.com/a/61964465/13264302
+            # - apt-get install jq -y
+            # - ContainerName="todo"
+            # - ImageURI=$(cat imageDetail.json | jq -r '.ImageURI')
+            # - printf '[{"name":"CONTAINER_NAME","imageUri":"IMAGE_URI"}]' > imagedefinitions.json
+            # - sed -i -e "s|CONTAINER_NAME|$ContainerName|g" imagedefinitions.json
+            # - sed -i -e "s|IMAGE_URI|$ImageURI|g" imagedefinitions.json
+            # - cat imagedefinitions.json
+
+
+
+
+# GreetingServiceName=Greeting
+# IMAGE_URI=11111EXAMPLE.dkr.ecr.us-west-2.amazonaws.com/ecs-repo:latest
+# printf '[{"name":"%s","imageUri":"%s"}]' "$GreetingServiceName" "$IMAGE_URI" > imagedefinitions.json
