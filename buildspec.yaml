@@ -7,13 +7,13 @@ phases:
   pre_build:
     commands:
       - echo Pre-Build started for """""Greeting""""""" on `date`...
-      # - REPOSITORY_URI=$AWS_ACCOUNT.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/set-ecs-greetingecrrepository-*
+      # - REPOSITORY_URI=$AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/set-ecs-greetingecrrepository-*
       # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       - IMAGE_URI=$REPOSITORY_URI:$IMAGE_TAG
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com
 
   build:
     commands:
